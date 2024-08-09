@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Navbar with Animated Circles</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #2b2b2b;
+      overflow: hidden;
+      /* Prevents scrolling */
+    }
+
+    .navbar {
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      position: absolute;
+      top: 40%;
+    }
+
+    .logo {
+      cursor: pointer;
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .black-bg {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      transition: opacity 0.5s ease;
+    }
+
+    .circle-container {
+      display: none;
+      /* Hidden by default */
+      position: relative;
+      height: 100%;
+      width: 600px;
+      margin: auto;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .circle {
+      margin: 10px;
+      text-align: center;
+      width: 90px;
+      height: 90px;
+      background-color: #fff;
+      color: #333;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      opacity: 0;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      position: absolute;
+    }
+
+    .sub-circle-container {
+      display: none;
+      /* Hidden by default */
+      position: relative;
+      top: -37px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .sub-circle {
+      margin: 5px;
+      width: 70px;
+      height: 70px;
+      position: absolute;
+      background-color: #ddd;
+      text-decoration: none;
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: opacity 0.5s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .navback {
+      position: absolute;
+      left: 50px;
+      top: 60px;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: flex;
+      gap: 10px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+    }
+
+    .circle-container.show {
+      opacity: 1;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .circle {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .sub-circle-container {
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .sub-circle {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .hidden {
+      animation: fadeOut 0.5s ease forwards;
+    }
+
+    @media (max-width: 600px) {
+      .sub-circle-container {
+        top: -37px;
+        left: -28px;
+      }
+
+      .resi-cir1 {
+        left: -53px !important;
+      }
+
+      .resi-cir2 {
+        left: -140px !important;
+      }
+
+      .resi-cir3 {
+        right: -110px !important;
+      }
+
+      .port-circle3 {
+        top: 130px !important;
+        right: -118px !important;
+      }
+
+      .port-circle2 {
+        top: 130px !important;
+        left: -130px !important;
+      }
+
+      .port-circle4 {
+        top: 269px !important;
+        left: 38px !important;
+      }
+
+      .port-circle1 {
+        top: 269px !important;
+        left: -132px !important;
+      }
+
+      .navbar {
+        top: 50% !important;
+      }
+
+
+      .logo img {
+        width: 20% !important;
+        border-radius: 20px;
+      }
+
+      .navback {
+        left: 25px;
+        top: 22px;
+      }
+
+      .circle-container {
+        width: 350px;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 600px) {
+      .circle {
+        width: 140px;
+        height: 140px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .sub-circle {
+        width: 90px;
+        height: 90px;
+        font-size: 14px;
+      }
+
+    }
+
+    .logo img {
+      width: 8%;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo" onclick="showCircles()"><img src="/assets/logo.avif" alt=""></div>
+  </nav>
+
+  <div class="black-bg" onclick="hideCircles()">
+    <button class="navback" onclick="navback(event)">
+      <i class="fa-solid fa-arrow-left"></i>Back
+    </button>
+  </div>
+
+  <div class="circle-container" id="circleContainer">
+    <div class="circle" data-top="480px" onclick="toggleSubCircles(event)">
+      Portfolios
+      <div class="sub-circle-container">
+        <a data-top="294px" data-left="-180px" class="sub-circle port-circle1" href="success.html">Planned Events</a>
+        <a data-top="160px" data-left="-180px" class="sub-circle port-circle2" href="success.html">Gkdows</a>
+        <a data-top="160px" data-right="-100px" class="sub-circle port-circle3" href="success.html">Residence Plan</a>
+        <a data-top="295px" data-left="6px" class="sub-circle port-circle4" href="success.html">Resonance</a>
+      </div>
+    </div>
+    <div class="circle" data-top="368px" data-left="0" onclick="toggleSubCircles(event)">
+      Meet The Team 2014
+      <div class="sub-circle-container">
+        <a data-top="294px" data-left="-230px" class="sub-circle port-circle1" href="success.html">Image (President)</a>
+        <a data-top="160px" data-left="-230px" class="sub-circle port-circle2" href="success.html">Image (Vp)</a>
+        <a data-top="160px" data-right="-100px" class="sub-circle port-circle3" href="success.html">Image (Sports)</a>
+        <a data-top="295px" data-left="6px" class="sub-circle port-circle4" href="success.html">Image</a>
+      </div>
+    </div>
+    <div class="circle" data-top="145px" data-left="0" onclick="toggleSubCircles(event)">
+      Resident's Corner
+      <div class="sub-circle-container">
+        <a data-top="294px" data-left="-130px" class="sub-circle resi-cir1" href="success.html">Manual</a>
+        <a data-top="160px" data-left="-210px" class="sub-circle resi-cir2" href="success.html">Form</a>
+        <a data-top="160px" data-right="-65px" class="sub-circle resi-cir3" href="success.html">Email Us</a>
+      </div>
+    </div>
+    <div class="circle" data-top="10px" onclick="toggleSubCircles(event)">
+      ARDIGO
+      <div class="sub-circle-container">
+        <a data-top="400px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="294px" data-left="-167px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="160px" data-left="-127px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="160px" data-right="-119px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="302px" data-left="75px" class="sub-circle" href="success.html">Sub item</a>
+      </div>
+    </div>
+    <div class="circle" data-top="145px" data-right="0" onclick="toggleSubCircles(event)">
+      ARCHIVES
+      <div class="sub-circle-container">
+        <a data-top="400px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="294px" data-left="-167px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="160px" data-left="-127px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="160px" data-right="-119px" class="sub-circle" href="success.html">Sub item</a>
+        <a data-top="302px" data-left="75px" class="sub-circle" href="success.html">Sub item</a>
+      </div>
+    </div>
+    <div class="circle" data-top="368px" data-right="0" onclick="toggleSubCircles(event)">
+      Frents UNDER ARD 2004
+      <div class="sub-circle-container">
+        <a data-top="294px" data-left="-130px" class="sub-circle resi-cir1" href="success.html">Sub item2</a>
+        <a data-top="160px" data-left="-210px" class="sub-circle resi-cir2" href="success.html">Sub item3</a>
+        <a data-top="160px" data-right="-65px" class="sub-circle resi-cir3" href="success.html">Sub item4</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"
+    integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    function showCircles() {
+      const blackBg = document.querySelector(".black-bg");
+      const circleContainer = document.querySelector(".circle-container");
+      const circles = document.querySelectorAll(".circle");
+      const navbtn = document.querySelector(".navback");
+
+      document
+        .querySelectorAll(".sub-circle-container")
+        .forEach((container) => {
+          container.style.display = "none";
+        });
+      circleContainer.classList.add("show");
+      blackBg.style.display = "block";
+      circleContainer.style.display = "flex";
+      navbtn.style.display = "none";
+      circles.forEach((circle) => {
+        const top = circle.getAttribute("data-top");
+        const left = circle.getAttribute("data-left");
+        const right = circle.getAttribute("data-right");
+        const bottom = circle.getAttribute("data-bottom");
+
+        circle.style.top = top || ""; // Set top position
+        circle.style.left = left || ""; // Set left position
+        circle.style.right = right || ""; // Set right position
+        circle.style.bottom = bottom || ""; // Set bottom position
+        circle.style.opacity = "1";
+        circle.style.transform = "scale(1)";
+        circle.classList.remove("hidden");
+      });
+    }
+
+    function hideCircles() {
+      const blackBg = document.querySelector(".black-bg");
+      const circleContainer = document.querySelector(".circle-container");
+      const circles = document.querySelectorAll(".circle");
+
+      blackBg.style.display = "none";
+      circleContainer.style.display = "none";
+      circles.forEach((circle) => {
+        circle.style.opacity = "0";
+        circle.style.transform = "scale(0.5)";
+        circle.classList.remove("hidden");
+        const subCircleContainers = document.querySelectorAll(
+          ".sub-circle-container"
+        );
+        subCircleContainers.forEach(
+          (container) => (container.style.display = "none")
+        );
+      });
+    }
+
+    function navback(event) {
+      event.stopPropagation();
+      hideCircles(); // Hide the sub-circles and black background
+
+      // Show the main circles again
+      showCircles();
+    }
+
+    function toggleSubCircles(event) {
+      event.stopPropagation();
+      const mainCircle = event.currentTarget;
+      const subCircleContainer = mainCircle.querySelector(
+        ".sub-circle-container"
+      );
+      const isVisible = subCircleContainer.style.display === "flex";
+      const subcircles = document.querySelectorAll(".sub-circle");
+      const navbtn = document.querySelector(".navback");
+
+      navbtn.style.display = "flex";
+
+      subcircles.forEach((subcircle) => {
+        const top = subcircle.getAttribute("data-top");
+        const left = subcircle.getAttribute("data-left");
+        const right = subcircle.getAttribute("data-right");
+        const bottom = subcircle.getAttribute("data-bottom");
+
+        subcircle.style.top = top || ""; // Set top position
+        subcircle.style.left = left || ""; // Set left position
+        subcircle.style.right = right || ""; // Set right position
+        subcircle.style.bottom = bottom || ""; // Set bottom position
+      });
+
+      // Hide all sub-circle containers and reset all main circles
+      document
+        .querySelectorAll(".sub-circle-container")
+        .forEach((container) => {
+          container.style.display = "none";
+        });
+      document.querySelectorAll(".circle").forEach((circle) => {
+        circle.classList.add("hidden");
+      });
+
+      // Show the clicked main circle and its sub-circle container if it was not already visible
+      if (!isVisible) {
+        mainCircle.classList.remove("hidden");
+        subCircleContainer.style.display = "flex";
+        mainCircle.style.top = "20px";
+        mainCircle.style.left = "40%";
+        mainCircle.style.animation = "slideUp 0.5s ease forwards";
+      }
+    }
+  </script>
+</body>
+
+</html>

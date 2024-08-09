@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar with Animated Circles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            overflow: hidden; /* Prevents scrolling when the background layer is active */
+        }
+        
+        .navbar {
+            position: relative;
+            background-color: #333;
+            padding: 15px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo {
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 8;
+            user-select: none;
+        }
+        
+        .black-bg {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+            z-index: 7;
+        }
+        
+        .circle-container {
+            display: none; /* Hidden by default */
+            position: absolute;
+            width: 600px;
+            height: 600px; /* Adjusted to fit all circles */
+            top: 50%;
+            left: 44%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 8;
+        }
+        
+        .circle {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            padding: 20px;
+            background-color: #fff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100%;
+            font-size: 16px;
+            opacity: 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="toggleCircles()">Logo</div>
+    </nav>
+    <div class="black-bg" onclick="toggleCircles()"></div> <!-- Black background layer with click event -->
+    <div class="circle-container">
+        <div class="circle" id="circle1" data-y="-50" data-rotate="0" data-x="360">
+            Portfolios
+        </div>
+        <div class="circle" id="circle2" data-y="100" data-rotate="0" data-x="-140">
+            The Team 2014
+        </div>
+        <div class="circle" id="circle3" data-y="180" data-rotate="0" data-x="290">
+            THEY Reudent's Comer
+        </div>
+        <div class="circle" id="circle4" data-y="280" data-rotate="0" data-x="60">
+            ARDIGO
+        </div>
+        <div class="circle" id="circle5" data-y="-180" data-rotate="0" data-x="150">
+            ARCHIVES
+        </div>
+        <div class="circle" id="circle6" data-y="-120" data-rotate="0" data-x="-80">
+            Frents UNDER ARD 2004
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script>
+        let isAnimating = false;
+
+        function toggleCircles() {
+            const circles = document.querySelector(".circle-container");
+            const blackBg = document.querySelector(".black-bg");
+            const circleElements = document.querySelectorAll(".circle");
+
+            if (circles.style.display === "flex") {
+                anime({
+                    targets: circleElements,
+                    opacity: [1, 0],
+                    translateX: function (el) {
+                        return el.getAttribute("data-x");
+                    },
+                    translateY: function (el) {
+                        return el.getAttribute("data-y");
+                    },
+                    rotate: function (el) {
+                        return el.getAttribute("data-rotate") + "deg";
+                    },
+                    duration: function () {
+                        return anime.random(500, 1000);
+                    },
+                    easing: "easeInOutQuad",
+                    complete: () => {
+                        circles.style.display = "none";
+                        blackBg.style.display = "none";
+                        isAnimating = false; // Reset animation state
+                    },
+                });
+            } else {
+                if (!isAnimating) {
+                    // Check if animation is already running
+                    isAnimating = true; // Set animation state
+                    circles.style.display = "flex";
+                    blackBg.style.display = "block";
+                    anime({
+                        targets: circleElements,
+                        opacity: [0, 1],
+                        translateX: function (el) {
+                            return el.getAttribute("data-x");
+                        },
+                        translateY: function (el) {
+                            return el.getAttribute("data-y");
+                        },
+                        rotate: function (el) {
+                            return el.getAttribute("data-rotate") + "deg";
+                        },
+                        duration: function () {
+                            return anime.random(1200, 1800);
+                        },
+                        delay: function () {
+                            return anime.random(0, 400);
+                        },
+                        easing: "easeOutElastic(1, .8)",
+                        complete: () => {
+                            // Additional code if needed
+                        },
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
